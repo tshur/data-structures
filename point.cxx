@@ -1,56 +1,90 @@
-#import <cmath>
+// FILE: point.cxx
+// AUTHOR: Tim Shur
+// IMPLEMENTS: The functions of the Point class (see point.h for documentation)
 
-namespace tim_struct {
 
-  Point::Point(double init_x, double init_y) {
-    x = init_x;
-    y = init_y;
-  }
+#include <cmath>
 
-  Point::Point(const Point& other) {
-    x = other.x;
-    y = other.y;
-  }
+namespace tim_struct
+{
 
-  double Point::dist(const Point& p1, const Point& p2) {
-    return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-  }
+    // CONSTRUCTOR AND COPY CONSTRUCTOR
+    Point::Point(double init_x, double init_y) {
+        x = init_x;
+        y = init_y;
+    }
 
-  double Point::distSq(const Point& p1, const Point& p2) {
-    return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
-  }
+    Point::Point(const Point& other) {
+        x = other.x;
+        y = other.y;
+    }
 
-  void Point::setX(const double& newX) {
-    x = newX;
-  }
+    // MODIFICATION MEMBER FUNCTIONS
+    void Point::setX(const double& newX) {
+        x = newX;
+    }
 
-  void Point::setY(const double& newY) {
-    y = newY;
-  }
+    void Point::setY(const double& newY) {
+        y = newY;
+    }
 
-  Point& Point::operator = (const Point& other) {
-    x = other.x;
-    y = other.y;
-    return (*this);
-  }
+    void Point::shift(const double& other_x, const double& other_y) {
+        x += other_x;
+        y += other_y;
+    }
 
-  double Point::getX() const {
-    return x;
-  }
+    void Point::operator += (const Point& other) {
+        x += other.x;
+        y += other.y;
+    }
 
-  double Point::getY() const {
-    return y;
-  }
+    Point& Point::operator = (const Point& other) {
+        x = other.x;
+        y = other.y;
+        return (*this);
+    }
 
-  bool Point::operator == (const Point& other) {
-    return (x == other.x && y == other.y);
-  }
+    // CONSTANT MEMBER FUNCTIONS
+    double Point::dist(const Point& other) const {
+        return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2));
+    }
 
-  Point operator + (const Point& p1, const Point& p2) {
-    return Point(p1.x + p2.x, p1.y + p2.y);
-  }
+    double Point::distSq(const Point& other) const {
+        return Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2);
+    }
 
-  Point operator - (const Point& p1, const Point& p2) {
-    return Point(p1.x - p2.x, p1.y - p2.y);
-  }
+    double Point::getX() const {
+        return x;
+    }
+
+    double Point::getY() const {
+        return y;
+    }
+
+    // NON-MEMBER FUNCTIONS
+    double dist(const Point& p1, const Point& p2) const {
+        return Math.sqrt(Math.pow(p1.getX() - p2.getX(), 2) +
+                         Math.pow(p1.getY() - p2.getY(), 2));
+    }
+
+    double distSq(const Point& p1, const Point& p2) const {
+        return Math.pow(p1.getX() - p2.getX(), 2) +
+               Math.pow(p1.getY() - p2.getY(), 2);
+    }
+
+    bool operator == (const Point& p1, const Point& p2) const {
+        return (p1.getX() == p2.getX() && p1.getY() == p2.getY());
+    }
+
+    bool operator != (const Point& p1, const Point& p2) const {
+        return (p1.getX() != p2.getX() || p1.getY() != p2.getY());
+    }
+
+    Point operator + (const Point& p1, const Point& p2) const {
+        return Point(p1.getX() + p2.getX(), p1.getY() + p2.getY());
+    }
+
+    Point operator - (const Point& p1, const Point& p2) const {
+        return Point(p1.getX() - p2.getX(), p1.getY() - p2.getY());
+    }
 }

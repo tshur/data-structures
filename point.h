@@ -81,6 +81,8 @@
 #ifndef POINT_CLASS_H
 #define POINT_CLASS_H
 
+#include <iostream>  // Provides ostream
+
 namespace tim_struct
 {
     class Point
@@ -109,13 +111,13 @@ namespace tim_struct
     };
 
     // NON-MEMBER FUNCTIONS for the Point class
-    double dist(const Point& p1, const Point& p2) const;
-    double distSq(const Point& p1, const Point& p2) const;
-    bool operator == (const Point& p1, const Point& p2) const;
-    bool operator != (const Point& p1, const Point& p2) const;
-    Point operator + (const Point& p1, const Point& p2) const;
-    Point operator - (const Point& p1, const Point& p2) const;
+    double dist(const Point& p1, const Point& p2);
+    double distSq(const Point& p1, const Point& p2);
+    bool operator == (const Point& p1, const Point& p2);
+    bool operator != (const Point& p1, const Point& p2);
+    Point operator + (const Point& p1, const Point& p2);
+    Point operator - (const Point& p1, const Point& p2);
+    std::ostream& operator <<(std::ostream& outs, const Point& p);
 }
 
-#include "Point.cxx"
 #endif /* POINT_CLASS_H */

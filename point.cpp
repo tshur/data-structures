@@ -1,15 +1,18 @@
-// FILE: point.cxx
+// FILE: point.cpp
 // AUTHOR: Tim Shur
 // IMPLEMENTS: The functions of the Point class (see point.h for documentation)
 
 
-#include <cmath>
+#include <cmath>     // Provides sqrt and pow
+#include <iostream>  // Provides ostream
+#include "point.h"
+
 
 namespace tim_struct
 {
 
     // CONSTRUCTOR AND COPY CONSTRUCTOR
-    Point::Point(double init_x, double init_y) {
+    Point::Point(const double& init_x, const double& init_y) {
         x = init_x;
         y = init_y;
     }
@@ -46,11 +49,15 @@ namespace tim_struct
 
     // CONSTANT MEMBER FUNCTIONS
     double Point::dist(const Point& other) const {
-        return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2));
+    // Library facilities used: cmath
+
+        return sqrt(pow(x - other.x, 2) + pow(y - other.y, 2));
     }
 
     double Point::distSq(const Point& other) const {
-        return Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2);
+    // Library facilities used: cmath
+
+        return pow(x - other.x, 2) + pow(y - other.y, 2);
     }
 
     double Point::getX() const {
@@ -62,29 +69,38 @@ namespace tim_struct
     }
 
     // NON-MEMBER FUNCTIONS
-    double dist(const Point& p1, const Point& p2) const {
-        return Math.sqrt(Math.pow(p1.getX() - p2.getX(), 2) +
-                         Math.pow(p1.getY() - p2.getY(), 2));
+    double dist(const Point& p1, const Point& p2) {
+    // Library facilities used: cmath
+
+        return sqrt(pow(p1.getX() - p2.getX(), 2) +
+                    pow(p1.getY() - p2.getY(), 2));
     }
 
-    double distSq(const Point& p1, const Point& p2) const {
-        return Math.pow(p1.getX() - p2.getX(), 2) +
-               Math.pow(p1.getY() - p2.getY(), 2);
+    double distSq(const Point& p1, const Point& p2) {
+    // Library facilities used: cmath
+
+        return pow(p1.getX() - p2.getX(), 2) +
+               pow(p1.getY() - p2.getY(), 2);
     }
 
-    bool operator == (const Point& p1, const Point& p2) const {
+    bool operator == (const Point& p1, const Point& p2) {
         return (p1.getX() == p2.getX() && p1.getY() == p2.getY());
     }
 
-    bool operator != (const Point& p1, const Point& p2) const {
+    bool operator != (const Point& p1, const Point& p2) {
         return (p1.getX() != p2.getX() || p1.getY() != p2.getY());
     }
 
-    Point operator + (const Point& p1, const Point& p2) const {
+    Point operator + (const Point& p1, const Point& p2) {
         return Point(p1.getX() + p2.getX(), p1.getY() + p2.getY());
     }
 
-    Point operator - (const Point& p1, const Point& p2) const {
+    Point operator - (const Point& p1, const Point& p2) {
         return Point(p1.getX() - p2.getX(), p1.getY() - p2.getY());
+    }
+
+    std::ostream& operator <<(std::ostream& outs, const Point& p) {
+        outs << "Point(" << p.getX() << ", " << p.getY() << ")";
+        return outs;
     }
 }

@@ -3,12 +3,13 @@
 // IMPLEMENTS: The functions of the Point class (see point.h for documentation)
 
 #include <cstdlib>  // Provides NULL
+#include <iostream> // Provides ostream
 #include <cassert>  // Provides assert
 
 namespace tim_struct
 {
     // CONSTRUCTOR, COPY CONSTRUCTOR, AND DESTRUCTOR
-    template <class Item>;
+    template <class Item>
     SinglyLinkedList<Item>::SinglyLinkedList()
     // Library facilities used: cstdlib
     {
@@ -16,7 +17,7 @@ namespace tim_struct
         many_nodes = 0;
     }
 
-    template <class Item>;
+    template <class Item>
     SinglyLinkedList<Item>::SinglyLinkedList(const SinglyLinkedList<Item>& source)
     // Library facilities used: cstdlib
     {
@@ -39,7 +40,7 @@ namespace tim_struct
         }
     }
 
-    template <class Item>;
+    template <class Item>
     SinglyLinkedList<Item>::~SinglyLinkedList()
     // Library facilities used: cstdlib
     {
@@ -49,7 +50,7 @@ namespace tim_struct
     }
 
     // MODIFICATION MEMBER FUNCTIONS
-    template <class Item>;
+    template <class Item>
     void SinglyLinkedList<Item>::head_insert(const Item& entry)
     // Library facilities used: cstdlib
     {
@@ -57,7 +58,7 @@ namespace tim_struct
 
         // Handle the case of an empty list
         if (head_ptr == NULL)
-            head_ptr == tail_ptr == new_head_ptr;
+            head_ptr = tail_ptr = new_head_ptr;
         else  // Handle the case of a non-empty list
         {
             new_head_ptr->set_link(head_ptr);
@@ -67,7 +68,7 @@ namespace tim_struct
         ++many_nodes;
     }
 
-    template <class Item>;
+    template <class Item>
     void SinglyLinkedList<Item>::insert(Node<Item>* prev_ptr, const Item& entry)
     // Library facilities used: cassert, cstdlib
     {
@@ -84,7 +85,7 @@ namespace tim_struct
         ++many_nodes;
     }
 
-    template <class Item>;
+    template <class Item>
     Item SinglyLinkedList<Item>::head_remove()
     // Library facilities used: cassert
     {
@@ -92,6 +93,8 @@ namespace tim_struct
 
         // Remove head node and update head_ptr
         Node<Item>* old_head_ptr = head_ptr;
+        Item old_head_data = old_head_ptr->data();
+
         head_ptr = head_ptr->link();
         delete old_head_ptr;
         --many_nodes;
@@ -99,9 +102,11 @@ namespace tim_struct
         // Update tail_ptr if necessary
         if (length() <= 1)
             tail_ptr = head_ptr;
+
+        return old_head_data;
     }
 
-    template <class Item>;
+    template <class Item>
     Item SinglyLinkedList<Item>::remove(Node<Item>* prev_ptr)
     // Library facilities used: cstdlib, cassert
     {
@@ -112,7 +117,7 @@ namespace tim_struct
         Item target_data = target_ptr->data();
 
         // Remove target_ptr from the list
-        prev_ptr->set_link(target_ptr->link())
+        prev_ptr->set_link(target_ptr->link());
         delete target_ptr;
         --many_nodes;
 
@@ -125,8 +130,8 @@ namespace tim_struct
     }
 
     // CONSTANT MEMBER FUNCTIONS
-    template <class Item>;
-    size_type SinglyLinkedList<Item>::occurrences(const Item& target) const
+    template <class Item>
+    typename SinglyLinkedList<Item>::size_type SinglyLinkedList<Item>::occurrences(const Item& target) const
     // Library facilities used: cstdlib
     {
         size_type count = 0;
@@ -139,7 +144,7 @@ namespace tim_struct
         return count;
     }
 
-    template <class Item>;
+    template <class Item>
     Node<Item>* SinglyLinkedList<Item>::search(const Item& target) const
     // Library facilities used: cstdlib
     {
@@ -151,15 +156,16 @@ namespace tim_struct
         return NULL;
     }
 
-    template <class Item>;
-    const Node<Item>* SinglyLinkedList<Item>::search(const Item& target) const
-    // Library facilities used: cstdlib
+    // NON-MEMBER FUNCTIONS
+    template <class Item>
+    std::ostream& operator <<(std::ostream& outs, const SinglyLinkedList<Item>& list)
+    // Library facilities used: iostream
     {
-        const Node<Item>* current;
-        for (current = head_ptr; current != NULL; current = current->link())
-            if (current->data() == target)
-                return current;
+        Const_Node_Iterator<Item> it;
+        for (it = list.begin(); it != list.end(); ++it)
+            outs << *it << " -> ";
 
-        return NULL;
+        outs << "NULL";
+        return outs;
     }
 }

@@ -28,6 +28,10 @@
 #ifndef SINGLY_LIST_H
 #define SINGLY_LIST_H
 
+#include "node.h"   // Provides the Node class
+#include <cstdlib>  // Provides size_t
+#include <iostream> // Provides ostream
+
 namespace tim_struct
 {
     template <class Item>
@@ -37,6 +41,8 @@ namespace tim_struct
         // TYPEDEFS
         typedef Item value_type;
         typedef std::size_t size_type;
+        typedef Node_Iterator<Item> iterator;
+        typedef Const_Node_Iterator<Item> const_iterator;
 
         // CONSTRUCTOR, COPY CONSTRUCTOR, AND DESTRUCTOR
         SinglyLinkedList();
@@ -48,12 +54,18 @@ namespace tim_struct
         void insert(Node<Item>* prev, const Item& entry);
         Item head_remove();
         Item remove(Node<Item>* prev);
+        bool operator = (const SinglyLinkedList& source);
 
         // CONSTANT MEMBER FUNCTIONS
         size_type length() const { return many_nodes; }
         size_type occurrences(const Item& target) const;
         Node<Item>* search(const Item& target) const;
-        const Node<Item>* search(const Item& target) const;
+
+        // ITERATOR FUNCTIONS
+        iterator begin() { return iterator(head_ptr); }
+        const_iterator begin() const { return const_iterator(head_ptr); }
+        iterator end() { return iterator(); }
+        const_iterator end() const { return const_iterator(); }
 
     private:
         Node<Item>* head_ptr;
@@ -62,6 +74,8 @@ namespace tim_struct
     };
 
     // NON-MEMBER FUNCTIONS
+    template <class Item>
+    std::ostream& operator << (std::ostream& outs, const SinglyLinkedList<Item>& list);
 
 }
 

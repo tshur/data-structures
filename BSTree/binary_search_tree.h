@@ -47,18 +47,15 @@ namespace tim_struct
 
         // MODIFICATION MEMBER FUNCTIONS
         void insert(const Item& entry);
-        void delete(const BTNode<Item>* target);
+        void remove(const BTNode<Item>* target);
+        void clear();
         void operator = (const BinarySearchTree& source);
 
         // CONSTANT MEMBER FUNCTIONS
         BTNode<Item>* search(const Item& target) const;
         size_type occurrences(const Item& target) const;
         size_type length() const { return many_nodes; }
-
-        // (PRINT) TRAVERSAL -- TO ADD GENERAL PROCESS
-        void preorder(BTNode<Item>* root_ptr = root);
-        void inorder(BTNode<Item>* root_ptr = root);
-        void postorder(BTNode<Item>* root_ptr = root);
+        BTNode<Item>* get_root() const { return root; }
 
     private:
         BTNode<Item>* root;
@@ -66,6 +63,19 @@ namespace tim_struct
     };
 
     // NON-MEMBER FUNCTIONS
+
+    // TRAVERSAL WITH FUNCTION CALLS
+    template <class Item>
+    void preorder(void f(BTNode<Item>*), BTNode<Item>* root_ptr);
+
+    template <class Item>
+    void inorder(void f(BTNode<Item>*), BTNode<Item>* root_ptr);
+
+    template <class Item>
+    void rinorder(void f(BTNode<Item>*), BTNode<Item>* root_ptr);
+
+    template <class Item>
+    void postorder(void f(BTNode<Item>*), BTNode<Item>* root_ptr);
 }
 
 

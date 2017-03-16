@@ -28,7 +28,8 @@
 #ifndef BINARY_TREE_NODE_H
 #define BINARY_TREE_NODE_H
 
-#include <cstdlib>  // Provides NULL\
+#include <cstdlib>  // Provides NULL
+#include <iostream> // Provides cout and endl
 
 namespace tim_struct
 {
@@ -47,20 +48,52 @@ namespace tim_struct
         void set_right(BTNode* new_right) { right_child = new_right; }
 
         Item& data() { return data_field; }
-        const Item& data() { return data_field; }
+        const Item& data() const { return data_field; }
 
         BTNode* left() { return left_child; }
-        const BTNode* left() { return left_child; }
+        const BTNode* left() const { return left_child; }
         BTNode* right() { return right_child; }
-        const BTNode* right() { return right_child; }
+        const BTNode* right() const { return right_child; }
+        bool isLeaf() const {
+            return left_child == NULL && right_child == NULL;
+        }
 
     private:
         Item data_field;
         BTNode* left_child;
         BTNode* right_child;
     };
+
+    // NON-MEMBER UTILITY FUNCTIONS
+    template <class Item>
+    void node_destroy(BTNode<Item>* target) {
+        delete target;
+    }
+
+    template <class Item>
+    void node_print(BTNode<Item>* target) {
+        std::cout << " " << target->data() << " " << std::endl;
+    }
+
+    template <class Item>
+    BTNode<Item>* tree_insert(BTNode<Item>* root, const Item& entry) {
+        if (root == NULL)
+            root = new BTNode<Item>(entry);
+        else if (entry > root->data())
+            root->set_right(tree_insert(root->right(), entry));
+        else
+            root->set_left(tree_insert(root->left(), entry));
+
+        return root;
+    }
+
+    template <class Item>
+    BTNode<Item>* tree_copy(BTNode<Item>* root) {
+        if (root == NULL)
+            return NULL;
+        return new BTNode<Item>*(root->data(), tree_copy(root->left()),
+                                               tree_copy(root->right()));
+    }
 }
-
-
 
 #endif /* BINARY_TREE_NODE_H */
